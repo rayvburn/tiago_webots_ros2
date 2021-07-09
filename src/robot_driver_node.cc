@@ -1,5 +1,5 @@
 // tiago_webots_ros
-#include <tiago_webots_ros2/robot_task.h>
+#include <tiago_webots_ros2/robot_driver.h>
 
 // std
 #include <signal.h>
@@ -13,7 +13,7 @@ int main(int argc, char **argv) {
   rclcpp::init(argc, argv);
 
   // Start an asyncronous spinner
-  auto node = std::make_shared<tiago_webots_ros::RobotTask>();
+  auto node = std::make_shared<tiago_webots_ros::RobotDriver>();
   rclcpp::spin(node);
   rclcpp::shutdown();
   return 0;

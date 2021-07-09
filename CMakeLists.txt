@@ -50,7 +50,7 @@ set(${PROJECT_NAME}_dependencies
 #############
 
 add_library(${PROJECT_NAME} SHARED
-  src/robot_task.cc
+  src/robot_driver.cc
 )
 
 ament_target_dependencies(${PROJECT_NAME} 
@@ -60,13 +60,13 @@ target_link_libraries(${PROJECT_NAME}
   ${WEBOTS_LIB}
 )
 
-add_executable(robot_task_node 
-  src/robot_task_node.cc
+add_executable(robot_driver_node
+  src/robot_driver_node.cc
 )
-ament_target_dependencies(robot_task_node 
+ament_target_dependencies(robot_driver_node
   ${${PROJECT_NAME}_dependencies}
 )
-target_link_libraries(robot_task_node 
+target_link_libraries(robot_driver_node
   ${PROJECT_NAME}  
 )
 
@@ -82,7 +82,7 @@ install(
   INCLUDES DESTINATION include
 )
 
-install(TARGETS robot_task_node
+install(TARGETS robot_driver_node
   RUNTIME DESTINATION lib/${PROJECT_NAME}
 )
 
