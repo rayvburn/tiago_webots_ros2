@@ -504,7 +504,7 @@ Pedestrian {
   translation -5.3 1.26 3.6
   rotation 0 1 0 3.14159
   name "ANTONIO"
-  controllerArgs "--trajectory=\"-5.3 3.6, -5.3 -2\" --speed=0.1"
+  controllerArgs "--trajectory=-5.3 3.6, -5.3 -2 --speed=0.1"
   shirtColor 0.929412 0.831373 0
   pantsColor 0 0 0
   shoesColor 0.933333 0.933333 0.92549
