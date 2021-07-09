@@ -1,17 +1,17 @@
-#include <tiago_webots_ros2/robot_task.h>
+#include <tiago_webots_ros2/robot_driver.h>
 
 namespace tiago_webots_ros {
 
-RobotTask::RobotTask() :
-    Node("robot_task"),
+RobotDriver::RobotDriver() :
+    Node("robot_driver"),
     clock(std::make_shared<rclcpp::Clock>(RCL_ROS_TIME)) {
   enableDevices();
   setTF();
 }
 
-RobotTask::~RobotTask() {}
+RobotDriver::~RobotDriver() {}
 
-void RobotTask::setTF() {
+void RobotDriver::setTF() {
   static tf2_ros::StaticTransformBroadcaster br(this);
   geometry_msgs::msg::TransformStamped transformStamped;
   
@@ -37,46 +37,46 @@ void RobotTask::setTF() {
   br.sendTransform(transformStamped);
 }
 
-void RobotTask::enableCamera() {
+void RobotDriver::enableCamera() {
   camera_sub_ = this->create_subscription<sensor_msgs::msg::Image>(
     "/camera_2D/image_raw", rclcpp::SensorDataQoS(), 
-    std::bind(&RobotTask::updateImage, this, std::placeholders::_1));
+    std::bind(&RobotDriver::updateImage, this, std::placeholders::_1));
 }
 
-void RobotTask::enableRecognition() {
+void RobotDriver::enableRecognition() {
   recognition_sub_webots_ = this->create_subscription<
     webots_ros2_msgs::msg::WbCameraRecognitionObjects>(
     "/camera_2D/recognitions/webots", rclcpp::SensorDataQoS(), 
-    std::bind(&RobotTask::updateRecognizedObjectsWebots, this, 
+    std::bind(&RobotDriver::updateRecognizedObjectsWebots, this,
     std::placeholders::_1));
 }
 
-void RobotTask::enableLidar() {
+void RobotDriver::enableLidar() {
   lidar_sub_ = this->create_subscription<sensor_msgs::msg::LaserScan>(
     "/Hokuyo_URG_04LX_UG01", rclcpp::SensorDataQoS(),
-    std::bind(&RobotTask::updateLaserScan, this, std::placeholders::_1));
+    std::bind(&RobotDriver::updateLaserScan, this, std::placeholders::_1));
   laser_pub_ = this->create_publisher<sensor_msgs::msg::LaserScan>("/scan", 
     rclcpp::SensorDataQoS());
 }
 
-void RobotTask::enableWheel() {
+void RobotDriver::enableWheel() {
   wheels_sub_ = this->create_subscription<sensor_msgs::msg::JointState>(
     "/joint_states", rclcpp::SensorDataQoS(), 
-    std::bind(&RobotTask::updateJoints, this, std::placeholders::_1));
+    std::bind(&RobotDriver::updateJoints, this, std::placeholders::_1));
 }
 
-// void RobotTask::enableGPS() {
+// void RobotDriver::enableGPS() {
 //   gps_sub_ = this->create_subscription<geometry_msgs::msg::PointStamped>("/gps/gps",
 //     rclcpp::SensorDataQoS(),
-//     std::bind(&RobotTask::updateGPS, this, std::placeholders::_1));
+//     std::bind(&RobotDriver::updateGPS, this, std::placeholders::_1));
 // }
 
-void RobotTask::updateJoints(const sensor_msgs::msg::JointState::SharedPtr 
+void RobotDriver::updateJoints(const sensor_msgs::msg::JointState::SharedPtr
     joints) {
   wheels_ = *joints;
 }
 
-void RobotTask::updateLaserScan(const sensor_msgs::msg::LaserScan::SharedPtr 
+void RobotDriver::updateLaserScan(const sensor_msgs::msg::LaserScan::SharedPtr
     scan) {
   sensor_msgs::msg::LaserScan msg = *scan;
   msg.header.frame_id = "laser_frame";
@@ -84,11 +84,11 @@ void RobotTask::updateLaserScan(const sensor_msgs::msg::LaserScan::SharedPtr
   laser_pub_->publish(msg);
 }
 
-void RobotTask::updateImage(const sensor_msgs::msg::Image::SharedPtr image) {
+void RobotDriver::updateImage(const sensor_msgs::msg::Image::SharedPtr image) {
   image_ = *image;
 }
 
-void RobotTask::updateRecognizedObjectsWebots(
+void RobotDriver::updateRecognizedObjectsWebots(
     const webots_ros2_msgs::msg::WbCameraRecognitionObjects::SharedPtr objects) {
   rec_objects_webots_ = *objects;
 }
@@ -97,7 +97,7 @@ void RobotTask::updateRecognizedObjectsWebots(
 //   gps_ = *gps;
 // }
 
-void RobotTask::enableDevices() {
+void RobotDriver::enableDevices() {
   enableCamera();
   enableRecognition();
   enableLidar();

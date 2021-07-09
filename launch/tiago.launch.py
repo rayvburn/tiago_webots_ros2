@@ -40,7 +40,7 @@ def generate_launch_description():
         }.items()
     )
 
-    # TiagoRobot node
+    # # TiagoRobot node
     tiago_params = os.path.join(package_dir, 'config', 'tiago_params.yaml')
     tiago_robot_node = Node(
         package='tiago_webots_ros2',
@@ -84,8 +84,8 @@ def generate_launch_description():
     return launch.LaunchDescription([
         webots,
         tiago_robot_node,
-        map_server_node,
-        amcl_node,
-        navigation_node,
+        # map_server_node,
+        # amcl_node,
+        # navigation_node,
         rviz_node
     ])

@@ -35,7 +35,7 @@
 
 namespace tiago_webots_ros {
 
-class RobotTask : public rclcpp::Node {
+class RobotDriver : public rclcpp::Node {
   // robot
   rclcpp::Clock::SharedPtr clock;
   
@@ -85,8 +85,8 @@ class RobotTask : public rclcpp::Node {
   void enableDevices();
   
   public: 
-    RobotTask();
-    ~RobotTask();
+    RobotDriver();
+    ~RobotDriver();
 
     void enableLidar();
     void enableWheel();
