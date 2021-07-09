@@ -89,7 +89,8 @@ class RobotTask : public rclcpp::Node {
     ~RobotTask();
 
     void enableLidar();
-    void enableWheel();    
+    void enableWheel();
+    // void enableGPS();
     void enableCamera();    
     void enableRecognition();    
 };

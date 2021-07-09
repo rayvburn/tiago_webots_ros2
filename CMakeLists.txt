@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Webots
-link_directories($ENV{WEBOTS_HOME}/lib/controller)
+link_directories(/usr/local/webots/lib/controller)
 set(
   WEBOTS_LIB
   ${CMAKE_SHARED_LIBRARY_PREFIX}Controller${CMAKE_SHARED_LIBRARY_SUFFIX}
@@ -28,8 +28,8 @@ find_package(webots_ros2_msgs REQUIRED)
 
 include_directories(
   include
-  $ENV{WEBOTS_HOME}/include/controller/c
-  $ENV{WEBOTS_HOME}/include/controller/cpp
+  /usr/local/webots/include/controller/c
+  /usr/local/webots/include/controller/cpp
 )
 
 set(${PROJECT_NAME}_dependencies
