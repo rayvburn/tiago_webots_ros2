@@ -10,3 +10,11 @@ What's not working (in Webots-ROS2 interface, I suppose):
 
 * `TouchSensor`
 * not all joints' Transform Frames (tf2_ros) are published, therefore some of the transformations are hard-coded based on `.proto` file translation and rotation values
+
+
+TODO: initial pose
+TODO: divide into packages:
+
+* tiago_webots_driver
+* tiago_webots_cartographer
+* tiago_webots_navigation

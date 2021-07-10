@@ -8,7 +8,10 @@ package_name = 'tiago_webots_ros2'
 data_files = []
 data_files.append(('share/ament_index/resource_index/packages', ['resource/' + package_name]))
 data_files.append(('share/' + package_name, [
-    'launch/tiago_launch.py'
+    'launch/tiago_webots.launch.py',
+    'launch/tiago_mapping.launch.py',
+    'launch/cartographer.launch.py',
+    'launch/occupancy_grid.launch.py'
 ]))
 data_files.append(('share/' + package_name + '/resource', [
     'resource/map/intralogistics.pgm',
