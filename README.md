@@ -13,8 +13,4 @@ What's not working (in Webots-ROS2 interface, I suppose):
 
 
 TODO: initial pose
-TODO: divide into packages:
-
-* tiago_webots_driver
-* tiago_webots_cartographer
-* tiago_webots_navigation
+TODO: prep rviz for driver pkg
