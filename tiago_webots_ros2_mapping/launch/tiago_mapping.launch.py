@@ -6,22 +6,20 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 
 from ament_index_python.packages import get_package_share_directory
 
-package_name = 'tiago_webots_ros2'
-
 def generate_launch_description():
     world_file = LaunchConfiguration('world_file', default='intralogistics.wbt')
 
     # Webots with TIAGo Iron driver
     webots = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(get_package_share_directory(package_name), 'tiago_webots.launch.py')
+            os.path.join(get_package_share_directory('tiago_webots_ros2_driver'), 'launch', 'tiago_webots.launch.py')
         )
     )
 
     # Cartographer
     cartographer = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(get_package_share_directory(package_name), 'cartographer.launch.py')
+            os.path.join(get_package_share_directory('tiago_webots_ros2_mapping'), 'launch', 'cartographer.launch.py')
         )
     )
 

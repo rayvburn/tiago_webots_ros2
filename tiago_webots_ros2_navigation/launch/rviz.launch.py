@@ -13,31 +13,30 @@ from nav2_common.launch import RewrittenYaml
 
 def generate_launch_description():
     # Variables
-    lifecycle_nodes = ['amcl']
+    lifecycle_nodes = ['rviz2']
 
     # Getting directories and launch-files
-    package_dir = get_package_share_directory('tiago_webots_ros2')
+    package_dir = get_package_share_directory('tiago_webots_ros2_navigation')
 
-    # Amcl Node
-    amcl_params = os.path.join(package_dir, 'config', 'amcl_params.yaml')
-    amcl_node = Node(
-        package='nav2_amcl',
-        executable='amcl',
-        name='amcl',
+    # Rviz node
+    rviz_config = os.path.join(package_dir, 'config', 'rviz.rviz')
+    rviz_node = Node(
+        package='rviz2',
+        executable='rviz2',
         output='screen',
-        parameters=[amcl_params]
+        arguments=['--display-config=' + rviz_config]
     )
 
     lifecycle_manager = Node(
             package='nav2_lifecycle_manager',
             executable='lifecycle_manager',
-            name='lifecycle_manager_localization',
+            name='lifecycle_manager_rviz',
             output='screen',
             parameters=[{'use_sim_time': True},
                         {'autostart': True},
                         {'node_names': lifecycle_nodes}])
 
     return LaunchDescription([
-        amcl_node,
+        rviz_node,
         lifecycle_manager
     ])

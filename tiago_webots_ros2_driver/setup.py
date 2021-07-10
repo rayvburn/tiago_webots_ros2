@@ -4,15 +4,10 @@ from glob import glob
 from setuptools import setup
 
 
-package_name = 'tiago_webots_ros2'
+package_name = 'tiago_webots_ros2_driver'
 data_files = []
 data_files.append(('share/ament_index/resource_index/packages', ['resource/' + package_name]))
-data_files.append(('share/' + package_name, [
-    'launch/tiago_webots.launch.py',
-    'launch/tiago_mapping.launch.py',
-    'launch/cartographer.launch.py',
-    'launch/occupancy_grid.launch.py'
-]))
+data_files.append(('share/' + package_name + '/launch', ['launch/tiago_webots.launch.py']))
 data_files.append(('share/' + package_name + '/resource', [
     'resource/map/intralogistics.pgm',
     'resource/map/intralogistics.yaml'
@@ -33,9 +28,9 @@ setup(
     data_files=data_files,
     install_requires=['setuptools', 'launch'],
     zip_safe=True,
-    author='Jarosław Karwowski',
+    author='Jaroslaw Karwowski',
     author_email='jaroslaw.karwowski.dokt@pw.edu.pl',
-    maintainer='Jarosław Karwowski',
+    maintainer='Jaroslaw Karwowski',
     maintainer_email='jaroslaw.karwowski.dokt@pw.edu.pl',
     keywords=['ROS', 'Webots', 'Robot', 'Simulation', 'Examples'],
     classifiers=[
@@ -49,7 +44,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'tiago_driver = tiago_webots_ros2.tiago_driver:main'
+            'tiago_driver = tiago_webots_ros2_driver.tiago_driver:main'
         ],
         'launch.frontend.launch_extension': ['launch_ros = launch_ros']
     }
