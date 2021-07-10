@@ -92,7 +92,7 @@ class TiagoIronDriver(WebotsDifferentialDriveNode):
 
         transform = TransformStamped()
         transform.header.stamp = Time(seconds=self.robot.getTime()).to_msg()
-        # laser (must be rotated, because webots automatically
+        # laser (must be rotated, because `webots` automatically
         # assigns `rotated` frame to messages)
         transform.header.frame_id = 'base_link'
         transform.child_frame_id = 'base_laser_link'
@@ -106,8 +106,12 @@ class TiagoIronDriver(WebotsDifferentialDriveNode):
         self.static_broadcaster = StaticTransformBroadcaster(self)
         self.static_broadcaster.sendTransform(transform)
 
-        # IMU - same place as laser
+        # IMU - same place as laser, no rotations
         transform.header.frame_id = 'base_link'
+        transform.transform.rotation.x = 0.0
+        transform.transform.rotation.y = 0.0
+        transform.transform.rotation.z = 0.0
+        transform.transform.rotation.w = 1.0
         transform.child_frame_id = 'imu_link'
         self.static_broadcaster = StaticTransformBroadcaster(self)
         self.static_broadcaster.sendTransform(transform)
