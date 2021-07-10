@@ -21,6 +21,7 @@ from rclpy.time import Time
 from geometry_msgs.msg import TransformStamped
 from tf2_ros import StaticTransformBroadcaster
 
+# robot device names must match `name` tags in `*.wbt` files placed in `worlds` directory
 DEVICE_CONFIG = {
     'robot': {
         'publish_base_footprint': True
@@ -73,6 +74,8 @@ class TiagoIronDriver(WebotsDifferentialDriveNode):
         super().__init__(
             'tiago_driver',
             args,
+            # names assigned to parameters must match the ones defined to robot's `.proto` file,
+            # e.g., check "/usr/local/webots/projects/robots/pal_robotics/tiago_base/protos/TiagoBase.proto"
             left_encoder='wheel_left_joint_sensor',
             left_joint='wheel_left_joint',
             right_encoder='wheel_right_joint_sensor',
@@ -80,6 +83,10 @@ class TiagoIronDriver(WebotsDifferentialDriveNode):
             robot_base_frame='base_link',
             wheel_distance=0.5,
             wheel_radius=0.12
+            # few args left with default values:
+            # * command_topic='/cmd_vel',
+            # * odometry_topic='/odom',
+            # * odometry_frame='odom',
         )
         self.start_device_manager(DEVICE_CONFIG)
 
@@ -115,7 +122,7 @@ class TiagoIronDriver(WebotsDifferentialDriveNode):
         self.static_broadcaster.sendTransform(transform)
 
         # TODO: `RobotModel` can't be visualized in `rviz2` due to lack
-        # of transforms between `base_link` to:
+        # of transforms between `base_link` and:
         # * "caster_front_right_2_link"
         # * "caster_front_right_1_link"
         # * "caster_front_left_2_link"
@@ -125,13 +132,11 @@ class TiagoIronDriver(WebotsDifferentialDriveNode):
         # * "caster_back_left_2_link"
         # * "caster_back_left_1_link"
 
-
 def main(args=None):
     rclpy.init(args=args)
     driver = TiagoIronDriver(args=args)
     rclpy.spin(driver)
     rclpy.shutdown()
-
 
 if __name__ == '__main__':
     main()
