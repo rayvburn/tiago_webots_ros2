@@ -17,7 +17,7 @@ TiagoIron {
   cameraSlot [
     Camera {
       rotation 0 1 0 -1.57079632679
-      name "camera 2D"
+      name "Camera 2D"
       fieldOfView 1.309
       width 400
       height 240
