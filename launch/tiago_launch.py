@@ -29,7 +29,7 @@ package_name = 'tiago_webots_ros2'
 
 def generate_launch_description():
     package_dir = get_package_share_directory(package_name)
-    world_file = LaunchConfiguration('world_file', default='intralogistics_2.wbt')
+    world_file = LaunchConfiguration('world_file', default='intralogistics.wbt')
 
     # Webots
     webots = IncludeLaunchDescription(
@@ -43,7 +43,7 @@ def generate_launch_description():
         #     'output': 'screen'
         # }.items()
         launch_arguments=[
-            ('package', 'webots_ros2_turtlebot'),
+            ('package', 'tiago_webots_ros2'),
             ('executable', 'tiago_driver'),
             ('world', PathJoinSubstitution([package_dir, 'worlds', world_file])),
             # ('output', 'screen'),
@@ -104,5 +104,5 @@ def generate_launch_description():
         # map_server_node,
         # amcl_node,
         # navigation_node,
-        rviz_node
+        # rviz_node
     ])

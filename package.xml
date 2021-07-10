@@ -8,12 +8,13 @@
 
   <license>Apache License 2.0</license>
 
-  <buildtool_depend>ament_cmake</buildtool_depend>
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>builtin_interfaces</exec_depend>
+  <exec_depend>webots_ros2_core</exec_depend>
+
   <depend>action_msgs</depend>
   <depend>nav2_bt_navigator</depend>
   <depend>nav2_map_server</depend>
-  <depend>rclcpp</depend>
-  <depend>rclcpp_lifecycle</depend>
   <depend>rviz2</depend> 
   <depend>sensor_msgs</depend>
   <depend>std_msgs</depend>
@@ -21,11 +22,15 @@
   <depend>vision_msgs</depend>
   <depend>webots_ros2_msgs</depend>
 
-  <test_depend>ament_lint_auto</test_depend>
-  <test_depend>ament_lint_common</test_depend>
+  <!-- These test dependencies are optional
+  Their purpose is to make sure that the code passes the linters -->
+  <test_depend>ament_copyright</test_depend>
+  <test_depend>ament_flake8</test_depend>
+  <test_depend>ament_pep257</test_depend>
+  <test_depend>python3-pytest</test_depend>
 
   <export>
-    <build_type>ament_cmake</build_type>
+    <build_type>ament_python</build_type>
   </export>
 
 </package>
