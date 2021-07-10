@@ -13,30 +13,33 @@ from nav2_common.launch import RewrittenYaml
 
 def generate_launch_description():
     # Variables
-    lifecycle_nodes = ['rviz2']
+    lifecycle_nodes = ['map_server']
 
     # Getting directories and launch-files
-    package_dir = get_package_share_directory('tiago_webots_ros2')
+    package_dir = get_package_share_directory('tiago_webots_ros2_navigation')
 
-    # Rviz node
-    rviz_config = os.path.join(package_dir, 'config', 'rviz.rviz')
-    rviz_node = Node(
-        package='rviz2',
-        executable='rviz2',
+    # Map Server Node
+    map_file = os.path.join(package_dir, 'resources', 'map', 'intralogistics.yaml')
+    map_server_node = Node(
+        package='nav2_map_server',
+        executable='map_server',
+        name='map_server',
         output='screen',
-        arguments=['--display-config=' + rviz_config]
+        parameters=[{'yaml_filename': map_file,
+            'topic_name': 'map',
+            'frame_id': 'map'}]
     )
 
     lifecycle_manager = Node(
             package='nav2_lifecycle_manager',
             executable='lifecycle_manager',
-            name='lifecycle_manager_rviz',
+            name='lifecycle_manager_map',
             output='screen',
             parameters=[{'use_sim_time': True},
                         {'autostart': True},
                         {'node_names': lifecycle_nodes}])
 
     return LaunchDescription([
-        rviz_node,
+        map_server_node,
         lifecycle_manager
     ])

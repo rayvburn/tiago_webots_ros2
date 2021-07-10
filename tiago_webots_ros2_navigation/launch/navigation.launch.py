@@ -20,7 +20,7 @@ def generate_launch_description():
                        'waypoint_follower']
 
     # Getting directories and launch-files
-    package_dir = get_package_share_directory('tiago_webots_ros2')
+    package_dir = get_package_share_directory('tiago_webots_ros2_navigation')
 
     # Controller Node
     controller_params = os.path.join(package_dir, 'config', 'controller_server_params.yaml')

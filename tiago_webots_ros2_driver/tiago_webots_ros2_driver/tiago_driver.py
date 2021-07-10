@@ -106,6 +106,12 @@ class TiagoIronDriver(WebotsDifferentialDriveNode):
         self.static_broadcaster = StaticTransformBroadcaster(self)
         self.static_broadcaster.sendTransform(transform)
 
+        # IMU - same place as laser
+        transform.header.frame_id = 'base_link'
+        transform.child_frame_id = 'imu_link'
+        self.static_broadcaster = StaticTransformBroadcaster(self)
+        self.static_broadcaster.sendTransform(transform)
+
         # camera
         # TODO: fix orientation, can't debug properly without
         # working image view in `rviz2` or `rqt_image_view`

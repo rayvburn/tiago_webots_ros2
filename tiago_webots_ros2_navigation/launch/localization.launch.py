@@ -13,33 +13,31 @@ from nav2_common.launch import RewrittenYaml
 
 def generate_launch_description():
     # Variables
-    lifecycle_nodes = ['map_server']
+    lifecycle_nodes = ['amcl']
 
     # Getting directories and launch-files
-    package_dir = get_package_share_directory('tiago_webots_ros2')
+    package_dir = get_package_share_directory('tiago_webots_ros2_navigation')
 
-    # Map Server Node
-    map_file = os.path.join(package_dir, 'resources', 'map', 'intralogistics.yaml')
-    map_server_node = Node(
-        package='nav2_map_server',
-        executable='map_server',
-        name='map_server',
+    # Amcl Node
+    amcl_params = os.path.join(package_dir, 'config', 'amcl_params.yaml')
+    amcl_node = Node(
+        package='nav2_amcl',
+        executable='amcl',
+        name='amcl',
         output='screen',
-        parameters=[{'yaml_filename': map_file,
-            'topic_name': 'map',
-            'frame_id': 'map'}]
+        parameters=[amcl_params]
     )
 
     lifecycle_manager = Node(
             package='nav2_lifecycle_manager',
             executable='lifecycle_manager',
-            name='lifecycle_manager_map',
+            name='lifecycle_manager_localization',
             output='screen',
             parameters=[{'use_sim_time': True},
                         {'autostart': True},
                         {'node_names': lifecycle_nodes}])
 
     return LaunchDescription([
-        map_server_node,
+        amcl_node,
         lifecycle_manager
     ])
