@@ -27,19 +27,17 @@ from launch.substitutions import ThisLaunchFileDir
 package_name = 'tiago_webots_ros2_mapping'
 
 def generate_launch_description():
-    use_sim_time = LaunchConfiguration('use_sim_time', default='true')
+    use_sim_time = LaunchConfiguration('use_sim_time', default='false')
     tiago_cartographer_prefix = get_package_share_directory(package_name)
     cartographer_config_dir = LaunchConfiguration(
         'cartographer_config_dir',
         default=os.path.join(tiago_cartographer_prefix, 'config'))
-    configuration_basename = LaunchConfiguration('configuration_basename',
-                                                 default='tiago_lds_2d.lua')
+    configuration_basename = LaunchConfiguration(
+        'configuration_basename',
+        default='tiago_lds_2d.lua')
 
     resolution = LaunchConfiguration('resolution', default='0.05')
     publish_period_sec = LaunchConfiguration('publish_period_sec', default='1.0')
-
-    rviz_config_dir = os.path.join(get_package_share_directory(package_name),
-                                   'rviz', 'tiago_cartographer.rviz')
 
     return LaunchDescription([
         DeclareLaunchArgument(
@@ -78,13 +76,5 @@ def generate_launch_description():
             PythonLaunchDescriptionSource([ThisLaunchFileDir(), '/occupancy_grid.launch.py']),
             launch_arguments={'use_sim_time': use_sim_time, 'resolution': resolution,
                               'publish_period_sec': publish_period_sec}.items(),
-        ),
-
-        Node(
-            package='rviz2',
-            executable='rviz2',
-            name='rviz2',
-            arguments=['-d', rviz_config_dir],
-            parameters=[{'use_sim_time': use_sim_time}],
-            output='screen'),
+        )
     ])
