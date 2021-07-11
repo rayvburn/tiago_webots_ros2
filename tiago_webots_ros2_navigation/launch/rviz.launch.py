@@ -19,7 +19,7 @@ def generate_launch_description():
     package_dir = get_package_share_directory('tiago_webots_ros2_navigation')
 
     # Rviz node
-    rviz_config = os.path.join(package_dir, 'config', 'rviz.rviz')
+    rviz_config = os.path.join(package_dir, 'rviz', 'tiago_navigation.rviz')
     rviz_node = Node(
         package='rviz2',
         executable='rviz2',
