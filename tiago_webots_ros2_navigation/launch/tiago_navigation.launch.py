@@ -35,52 +35,79 @@ def generate_launch_description():
         default='intralogistics.wbt'
     )
 
+    use_sim_time = LaunchConfiguration(
+        'use_sim_time',
+        default='false'
+    )
+
+    map_dir = LaunchConfiguration(
+        'map_file',
+        default=os.path.join(
+            get_package_share_directory('tiago_webots_ros2_driver'),
+            'resource',
+            'map',
+            'intralogistics.yaml'
+        )
+    )
+
+    # param_dir = LaunchConfiguration(
+    #     'params_file',
+    #     default=os.path.join(
+    #         get_package_share_directory(package_name),
+    #         'config',
+    #         'params.yaml')
+    # )
+    param_dir = LaunchConfiguration(
+        'params_file',
+        default=os.path.join(
+            get_package_share_directory('turtlebot3_navigation2'),
+            'param',
+            'burger.yaml')
+    )
+
+    nav2_launch_file_dir = os.path.join(get_package_share_directory('nav2_bringup'), 'launch')
+
+    # rviz_config_dir = os.path.join(
+    #     get_package_share_directory('tiago_webots_ros2_navigation'),
+    #     'rviz',
+    #     'tiago_navigation.rviz'
+    # )
+    rviz_config_dir = os.path.join(
+        get_package_share_directory('nav2_bringup'),
+        'rviz',
+        'nav2_default_view.rviz'
+    )
+
+
     # Webots with TIAGo Iron driver
-    webots = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(get_package_share_directory('tiago_webots_ros2_driver'), 'launch', 'tiago_webots.launch.py')
-        ), launch_arguments={
-            'world_file': world_file
-        }.items()
-    )
-
-    # Map Server Node
-    map_server_node = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(get_package_share_directory('tiago_webots_ros2_navigation'), 'launch', 'map_server.launch.py')
-        ),
-        launch_arguments={}.items()
-    )
-
-    # Amcl Node
-    amcl_node = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(get_package_share_directory('tiago_webots_ros2_navigation'), 'launch', 'localization.launch.py')
-        ),
-        launch_arguments={}.items()
-    )
-
-    # Navigator Node
-    navigation_node = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(get_package_share_directory('tiago_webots_ros2_navigation'), 'launch', 'navigation.launch.py')
-        ),
-        launch_arguments={}.items()
-    )
-
-    # Rviz node
-    rviz_node = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(get_package_share_directory('tiago_webots_ros2_navigation'), 'launch', 'rviz.launch.py')
-        ),
-        launch_arguments={}.items()
-    )
+    # webots = IncludeLaunchDescription(
+    #     PythonLaunchDescriptionSource(
+    #         os.path.join(get_package_share_directory('tiago_webots_ros2_driver'), 'launch', 'tiago_webots.launch.py')
+    #     ), launch_arguments={
+    #         'world_file': world_file
+    #     }.items()
+    # )
 
     return launch.LaunchDescription([
         launch.actions.DeclareLaunchArgument('world_file', default_value=world_file),
-        webots,
-        map_server_node,
-        amcl_node,
-        navigation_node,
-        rviz_node
+        launch.actions.DeclareLaunchArgument('use_sim_time', default_value=use_sim_time),
+        launch.actions.DeclareLaunchArgument('map_file', default_value=map_dir),
+
+        # webots,
+
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource([nav2_launch_file_dir, '/bringup_launch.py']),
+            launch_arguments={
+                'map': map_dir,
+                'use_sim_time': use_sim_time,
+                'params_file': param_dir}.items(),
+        ),
+
+        Node(
+            package='rviz2',
+            executable='rviz2',
+            name='rviz2',
+            arguments=['-d', rviz_config_dir],
+            parameters=[{'use_sim_time': use_sim_time}],
+            output='screen')
     ])
