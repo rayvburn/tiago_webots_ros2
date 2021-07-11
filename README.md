@@ -12,5 +12,7 @@ What's not working (in Webots-ROS2 interface, I suppose):
 * not all joints' Transform Frames (tf2_ros) are published, therefore some of the transformations are hard-coded based on `.proto` file translation and rotation values
 
 
-TODO: initial pose
+TODO: initial pose: in navigation mode, let's make it parameter
 TODO: prep rviz for driver pkg
+TODO: how to get a perfect map of the world?
+TODO: amcl initial pose as param?
