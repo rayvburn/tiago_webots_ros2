@@ -15,11 +15,17 @@ def generate_launch_description():
     # Variables
     lifecycle_nodes = ['map_server']
 
-    # Getting directories and launch-files
-    package_dir = get_package_share_directory('tiago_webots_ros2_navigation')
-
     # Map Server Node
-    map_file = os.path.join(package_dir, 'resources', 'map', 'intralogistics.yaml')
+    map_file = LaunchConfiguration(
+        'map_file',
+        default=os.path.join(
+            get_package_share_directory('tiago_webots_ros2_driver'),
+            'resource',
+            'map',
+            'intralogistics.yaml'
+        )
+    )
+
     map_server_node = Node(
         package='nav2_map_server',
         executable='map_server',
@@ -40,6 +46,7 @@ def generate_launch_description():
                         {'node_names': lifecycle_nodes}])
 
     return LaunchDescription([
+        DeclareLaunchArgument('map_file', default_value=map_file),
         map_server_node,
         lifecycle_manager
     ])
