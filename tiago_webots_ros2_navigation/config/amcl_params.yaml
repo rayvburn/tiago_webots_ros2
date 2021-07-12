@@ -39,11 +39,11 @@ amcl:
     always_reset_initial_pose: false
     scan_topic: scan
     map_topic: map
-    set_initial_pose: true
-    initial_pose.x: -9.131 #-7.9
-    initial_pose.y: -9.60 #+0.0
-    initial_pose.z: 0.0
-    initial_pose.a: 0.0
+    # set_initial_pose: true
+    # initial_pose.x: -9.131 #-7.9
+    # initial_pose.y: -9.60 #+0.0
+    # initial_pose.z: 0.0
+    # initial_pose.a: 0.0
 
 amcl_map_client:
   ros__parameters:
