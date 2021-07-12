@@ -10,7 +10,9 @@ data_files.append(('share/ament_index/resource_index/packages', ['resource/' + p
 data_files.append(('share/' + package_name + '/launch', ['launch/tiago_webots.launch.py']))
 data_files.append(('share/' + package_name + '/resource' + '/map', [
     'resource/map/intralogistics.pgm',
-    'resource/map/intralogistics.yaml'
+    'resource/map/intralogistics.yaml',
+    'resource/map/turtlebot3_burger_example.pgm',
+    'resource/map/turtlebot3_burger_example.yaml'
 ]))
 data_files.append(('share/' + package_name + '/worlds/textures', glob('worlds/textures/*')))
 data_files.append(('share/' + package_name + '/worlds', [
@@ -18,6 +20,8 @@ data_files.append(('share/' + package_name + '/worlds', [
     'worlds/.intralogistics.wbproj',
     'worlds/retirement_home.wbt',
     'worlds/.retirement_home.wbproj',
+    'worlds/turtlebot3_burger_example.wbt',
+    'worlds/.turtlebot3_burger_example.wbproj'
 ]))
 data_files.append(('share/' + package_name, ['package.xml']))
 
