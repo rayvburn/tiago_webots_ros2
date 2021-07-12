@@ -22,6 +22,7 @@ from geometry_msgs.msg import TransformStamped
 from tf2_ros import StaticTransformBroadcaster
 
 # robot device names must match `name` tags in `*.wbt` files placed in `worlds` directory
+# `always_publish` does not check number of subscribers
 DEVICE_CONFIG = {
     'robot': {
         'publish_base_footprint': True
@@ -62,11 +63,13 @@ DEVICE_CONFIG = {
         'topic_name': '/sonar_back_left',
         'always_publish': True
     },
-    'base_cover_link': {
-        'frame_id': 'base_bumper_link',
-        'topic_name': '/bumper',
-        'always_publish': True
-    }
+    # "[tiago_driver]: Device `base_cover_link` is not considered!
+    # The device doesn't exist or it is not supported."
+    # 'base_cover_link': {
+    #     'frame_id': 'base_bumper_link',
+    #     'topic_name': '/bumper',
+    #     'always_publish': True
+    # }
 }
 
 class TiagoIronDriver(WebotsDifferentialDriveNode):
