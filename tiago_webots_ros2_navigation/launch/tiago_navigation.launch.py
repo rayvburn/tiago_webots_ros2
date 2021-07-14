@@ -1,47 +1,37 @@
-#!/usr/bin/env python
-
-"""Launch Webots and the controller."""
-
+# Copyright 2019 Open Source Robotics Foundation, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# Author: Darby Lim
+#
+# NOTE: this is mostly a direct copy of
+# https://github.com/ROBOTIS-GIT/turtlebot3/blob/foxy-devel/turtlebot3_navigation2/launch/navigation2.launch.py
+# last change: https://github.com/ROBOTIS-GIT/turtlebot3/commit/eba3711e12c16b8bba59a3d230fd6b6ba601c629
 import os
 
-import launch
-from launch.actions.declare_launch_argument import DeclareLaunchArgument
-from launch.substitutions.launch_configuration import LaunchConfiguration
-from launch.substitutions.path_join_substitution import PathJoinSubstitution
-from launch_ros.actions import Node
-from launch_ros.actions import LifecycleNode
-from launch.actions import EmitEvent
-from launch.actions import RegisterEventHandler
-from launch_ros.events.lifecycle import ChangeState
-from launch_ros.events.lifecycle import matches_node_name
-from launch_ros.event_handlers import OnStateTransition
-from launch.actions import LogInfo
-from launch.events import matches_action
-from launch.event_handlers.on_shutdown import OnShutdown
+from ament_index_python.packages import get_package_share_directory
+from launch import LaunchDescription
+from launch.actions import DeclareLaunchArgument
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-
-import lifecycle_msgs.msg
-
-from ament_index_python.packages import get_package_share_directory
-
-package_name = 'tiago_webots_ros2_navigation'
+from launch.substitutions import LaunchConfiguration
+from launch_ros.actions import Node
 
 def generate_launch_description():
-    package_dir = get_package_share_directory(package_name)
-
-    world_file = LaunchConfiguration(
-        'world_file',
-        default='intralogistics.wbt'
-    )
-
-    use_sim_time = LaunchConfiguration(
-        'use_sim_time',
-        default='false'
-    )
+    use_sim_time = LaunchConfiguration('use_sim_time', default='false')
 
     map_dir = LaunchConfiguration(
-        'map_file',
+        'map',
         default=os.path.join(
             get_package_share_directory('tiago_webots_ros2_driver'),
             'resource',
@@ -50,57 +40,49 @@ def generate_launch_description():
         )
     )
 
-    # param_dir = LaunchConfiguration(
-    #     'params_file',
-    #     default=os.path.join(
-    #         get_package_share_directory(package_name),
-    #         'config',
-    #         'params.yaml')
-    # )
     param_dir = LaunchConfiguration(
         'params_file',
         default=os.path.join(
-            get_package_share_directory('turtlebot3_navigation2'),
-            'param',
-            'burger.yaml')
+            get_package_share_directory('tiago_webots_ros2_navigation'),
+            'config',
+            'params.yaml'
+        )
     )
 
-    nav2_launch_file_dir = os.path.join(get_package_share_directory('nav2_bringup'), 'launch')
-
-    # rviz_config_dir = os.path.join(
-    #     get_package_share_directory('tiago_webots_ros2_navigation'),
-    #     'rviz',
-    #     'tiago_navigation.rviz'
-    # )
-    rviz_config_dir = os.path.join(
+    nav2_launch_file_dir = os.path.join(
         get_package_share_directory('nav2_bringup'),
-        'rviz',
-        'nav2_default_view.rviz'
+        'launch',
+        'bringup_launch.py'
     )
 
+    rviz_config_dir = os.path.join(
+        get_package_share_directory('tiago_webots_ros2_navigation'),
+        'rviz',
+        'tiago_navigation.rviz')
 
-    # Webots with TIAGo Iron driver
-    # webots = IncludeLaunchDescription(
-    #     PythonLaunchDescriptionSource(
-    #         os.path.join(get_package_share_directory('tiago_webots_ros2_driver'), 'launch', 'tiago_webots.launch.py')
-    #     ), launch_arguments={
-    #         'world_file': world_file
-    #     }.items()
-    # )
+    return LaunchDescription([
+        DeclareLaunchArgument(
+            'map',
+            default_value=map_dir,
+            description='Full path to map file to load'),
 
-    return launch.LaunchDescription([
-        launch.actions.DeclareLaunchArgument('world_file', default_value=world_file),
-        launch.actions.DeclareLaunchArgument('use_sim_time', default_value=use_sim_time),
-        launch.actions.DeclareLaunchArgument('map_file', default_value=map_dir),
+        DeclareLaunchArgument(
+            'params_file',
+            default_value=param_dir,
+            description='Full path to param file to load'),
 
-        # webots,
+        DeclareLaunchArgument(
+            'use_sim_time',
+            default_value='false',
+            description='Use simulation (Gazebo) clock if true'),
 
         IncludeLaunchDescription(
-            PythonLaunchDescriptionSource([nav2_launch_file_dir, '/bringup_launch.py']),
+            PythonLaunchDescriptionSource(nav2_launch_file_dir),
             launch_arguments={
                 'map': map_dir,
                 'use_sim_time': use_sim_time,
-                'params_file': param_dir}.items(),
+                'params_file': param_dir
+            }.items(),
         ),
 
         Node(
@@ -109,5 +91,6 @@ def generate_launch_description():
             name='rviz2',
             arguments=['-d', rviz_config_dir],
             parameters=[{'use_sim_time': use_sim_time}],
-            output='screen')
+            output='screen'
+        ),
     ])
