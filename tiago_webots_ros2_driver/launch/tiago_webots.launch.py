@@ -8,6 +8,7 @@ from launch.substitutions.launch_configuration import LaunchConfiguration
 from launch.substitutions.path_join_substitution import PathJoinSubstitution
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch_ros.actions import Node
 
 from ament_index_python.packages import get_package_share_directory
 

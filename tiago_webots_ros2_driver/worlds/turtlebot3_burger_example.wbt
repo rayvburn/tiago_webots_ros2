@@ -15,7 +15,7 @@ TexturedBackground {
   skybox FALSE
 }
 TiagoIron {
-  translation 6.35236 4.22115e-06 0.00614238
+  translation 6.35236 4.22115e-06 0.0898
   rotation 0.0019998820104419734 0.9669429520486941 0.2549849563313516 0.018
   controller "<extern>"
   controllerArgs [
@@ -43,7 +43,7 @@ TiagoIron {
     }
     GPS {
     }
-    HokuyoUrg04lxug01 {
+    HokuyoTiago {
     }
   ]
 }
