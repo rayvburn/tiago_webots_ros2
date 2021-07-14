@@ -8,6 +8,9 @@ package_name = 'tiago_webots_ros2_driver'
 data_files = []
 data_files.append(('share/ament_index/resource_index/packages', ['resource/' + package_name]))
 data_files.append(('share/' + package_name + '/launch', ['launch/tiago_webots.launch.py']))
+data_files.append(('share/' + package_name + '/protos', [
+    'protos/HokuyoTiago.proto'
+]))
 data_files.append(('share/' + package_name + '/resource' + '/map', [
     'resource/map/intralogistics.pgm',
     'resource/map/intralogistics.yaml',

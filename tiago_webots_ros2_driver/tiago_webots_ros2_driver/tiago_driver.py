@@ -27,8 +27,11 @@ DEVICE_CONFIG = {
     'robot': {
         'publish_base_footprint': True
     },
-    # see `name` @ /usr/local/webots/projects/devices/hokuyo/protos/HokuyoUrg04lxug01.proto
-    'Hokuyo URG-04LX-UG01': {
+    # main keys are `default` or custom names of attached devices; default names can be found in
+    # `.proto` files
+    # see default `name`, e.g., at /usr/local/webots/projects/devices/hokuyo/protos/HokuyoUrg04lxug01.proto
+    # and possibly custom `name` in world's '.wbt`
+    'Hokuyo Tiago': {
         'frame_id': 'base_laser_link',
         'topic_name': '/scan',
         'always_publish': True
@@ -105,7 +108,9 @@ class TiagoIronDriver(WebotsDifferentialDriveNode):
         transform.transform.rotation.w = +0.5
         transform.transform.translation.x = 0.202
         transform.transform.translation.y = 0.0
-        transform.transform.translation.z = -0.004
+        # .proto says that relative `z` is `-0.004`,
+        # but it makes laser scans below z = 0 height level!
+        transform.transform.translation.z = 0.04
         self.static_broadcaster = StaticTransformBroadcaster(self)
         self.static_broadcaster.sendTransform(transform)
 

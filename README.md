@@ -4,6 +4,8 @@ Metapackage with TIAGo robot definitions for Webots simulator with ROS2 interfac
 
 ## Description
 
+Main contribution of this repository is **ready-to-use** `TIAGo Iron` robot driver for Webots with ROS2 interface.
+
 Package is based on `turtlebot3` metapackage for ROS2 with a great effort of [`renan028`](https://github.com/renan028/tiago_webots_ros2) to tune the navigation parameters.
 
 What's not working (in Webots-ROS2 interface, I suppose):
@@ -32,3 +34,8 @@ ros2 launch tiago_webots_ros2_navigation tiago_navigation.launch.py use_sim_time
 TODO: prep rviz for driver pkg
 
 TODO: how to get a perfect map of the world?
+
+One may notice that a custom `.proto` for Hokuyo Lidar was defined (based on Cyberbotics' `HokuyoUrg04lxug01.proto`). This is due to the fact that default [Hokuyo URG-04LX-UG01](https://github.com/cyberbotics/webots/blob/master/projects/devices/hokuyo/protos/HokuyoUrg04lxug01.proto) has a wider `fieldOfView` than the mobile base construction allows. Therefore, edges of the Lidar niche were marked as obstacles in a costmap. See image for reference:
+
+
+
